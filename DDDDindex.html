@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI-Reiseplaner & Kultur-Guide</title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Inter', sans-serif; }
@@ -111,7 +110,7 @@
     <section class="card rounded-2xl p-0 mb-4">
       <div class="p-6 space-y-4">
         <div class="flex items-start gap-4">
-          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">📄</div>
+          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">💡</div>
           <div>
             <h2 class="text-lg font-semibold text-slate-100">Dein massgeschneiderter Guide</h2>
             <p class="text-slate-400 text-xs sm:text-sm">Sobald der Plan erstellt ist, erscheint er hier.</p>
@@ -147,7 +146,7 @@
     if (localStorage.getItem('_gemini_api_storedkey')) {
       apiField.value = localStorage.getItem('_gemini_api_storedkey');
       storeCheck.checked = true;
-      keyStatus.innerText = '✔️ Key aus LocalStorage';
+      keyStatus.innerText = '✔ Key aus LocalStorage';
       keyStatus.className = 'text-xs text-green-400';
     }
 
@@ -155,7 +154,7 @@
     storeCheck.addEventListener('change', function () {
       if (this.checked && apiField.value.trim().length > 0) {
         localStorage.setItem('_gemini_api_storedkey', apiField.value.trim());
-        keyStatus.innerText = '✔️ Key gespeichert!';
+        keyStatus.innerText = '✔ Key gespeichert!';
         keyStatus.className = 'text-xs text-green-400';
       } else {
         localStorage.removeItem('_gemini_api_storedkey');
@@ -169,7 +168,7 @@
       if (storeCheck.checked) {
         if (this.value.trim().length > 0) {
           localStorage.setItem('_gemini_api_storedkey', this.value.trim());
-          keyStatus.innerText = '✔️ Key gespeichert!';
+          keyStatus.innerText = '✔ Key gespeichert!';
           keyStatus.className = 'text-xs text-green-400';
         } else {
           localStorage.removeItem('_gemini_api_storedkey');
@@ -204,6 +203,16 @@
       // Horizontal rule
       safe = safe.replace(/^---$/gm, '<hr class="border-slate-600 my-4">');
 
+      // Preserve ordered list lines before <li> conversion
+      const orderedLineFlags = new Set();
+      let i = 0;
+      text.split('\n').forEach(line => {
+        if (/^\s*\d+\.\s+/.test(line)) {
+          orderedLineFlags.add(i);
+        }
+        i++;
+      });
+
       // Unordered list items
       safe = safe.replace(/^(\s*)[-*]\s+(.*)$/gm, '$1<li>$2</li>');
 
@@ -212,11 +221,11 @@
 
       // Wrap consecutive <li> in <ul> or <ol>
       safe = safe.replace(/((?:<li>.*?<\/li>\n?)+)/g, function(match) {
-        if (match.match(/^\d+\./m)) {
+        const firstLineIdx = safe.split('\n').findIndex(l => l.includes('<li>'));
+        if (firstLineIdx !== -1 && orderedLineFlags.has(firstLineIdx)) {
           return '<ol>\n' + match + '</ol>';
-        } else {
-          return '<ul>\n' + match + '</ul>';
         }
+        return '<ul>\n' + match + '</ul>';
       });
 
       // Paragraphs: double newlines
@@ -296,16 +305,14 @@
         }
 
         const data = await res.json();
-
         const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (!answer) {
-          outputDiv.innerHTML = '<span class="text-yellow-300 font-medium">⚠️ Keine Antwort vom Modell erhalten. Bitte versuche es erneut.</span>';
+          outputDiv.innerHTML = '<span class="text-yellow-300 font-medium">⚠ Keine Antwort vom Modell erhalten. Bitte versuche es erneut.</span>';
           return;
         }
 
         const body = renderMarkdown(answer);
-
         outputDiv.innerHTML = body;
 
       } catch (err) {
@@ -317,6 +324,5 @@
 
     console.log('AI-Reiseplaner ready.');
   </script>
-
 </body>
 </html>

@@ -16,7 +16,7 @@ Live-Demo auf GitHub Pages: [https://dein-benutzername.github.io/gemini-travel-p
 Dieses Repository dient im Moment nur zur Demonstration und als Code-Referenz.
 
 * Das Projekt ist funktionsfähig, wird jedoch von mir als Einzelentwickler fertiggestellt.
-* Externe Pull Requests oder Issues zur Code-Optimierung werden bis zur finalen Fertigstellung ignoriert oder geschlossen.
+
 
 ---
 
