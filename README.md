@@ -5,7 +5,7 @@
 
 Ein minimalistischer, serverloser und komplett kostenloser KI-gestützter Reiseplaner. Dieses Projekt wird vollständig auf GitHub Pages gehostet und nutzt die Gemini 2.0 Flash API nach dem BYOK-Prinzip (Bring Your Own Key).
 
-**Wichtiger Hinweis:** Dieses Projekt befindet sich aktuell in der aktiven Entwicklung und dient vorerst ausschließlich als persönliches Referenzprojekt. Beiträge (Contributions), Pull Requests oder eine aktive Mitarbeit sind zum jetzigen Zeitpunkt nicht erwünscht und werden nicht bearbeitet.
+**Wichtiger Hinweis:** Dieses Projekt befindet sich aktuell in der aktiven Entwicklung und dient vorerst ausschließlich einer Testphase.
 
 Live-Demo auf GitHub Pages: [https://dein-benutzername.github.io/gemini-travel-planner](https://www.google.com/search?q=https://dein-benutzername.github.io/gemini-travel-planner) (Ersetze dies mit deinem echten Link)
 
@@ -14,8 +14,6 @@ Live-Demo auf GitHub Pages: [https://dein-benutzername.github.io/gemini-travel-p
 ## Aktueller Projektstatus (Referenz)
 
 Dieses Repository dient im Moment nur zur Demonstration und als Code-Referenz.
-
-* Das Projekt ist funktionsfähig, wird jedoch von mir als Einzelentwickler fertiggestellt.
 
 
 ---
