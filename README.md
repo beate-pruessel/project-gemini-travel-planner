@@ -7,7 +7,8 @@ Ein minimalistischer, serverloser und komplett kostenloser KI-gestützter Reisep
 
 **Wichtiger Hinweis:** Dieses Projekt befindet sich aktuell in der aktiven Entwicklung und dient vorerst ausschließlich einer Testphase.
 
-Live-Demo auf GitHub Pages: [https://dein-benutzername.github.io/gemini-travel-planner](https://www.google.com/search?q=https://dein-benutzername.github.io/gemini-travel-planner) (Ersetze dies mit deinem echten Link)
+Live-Demo auf GitHub Pages: [https://beate-pruessel.github.io/project-gemini-travel-planner/](https://www.google.com/search?q=https://beate-pruessel.github.io/project-gemini-travel-planner/) 
+
 
 ---
 
