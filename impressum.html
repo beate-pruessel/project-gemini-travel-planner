@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum</title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .card { background: linear-gradient(135deg, #1e293b 0%, #1a2236 100%); border: 1px solid #2d3a50; }
+    .gradient-text { background: linear-gradient(135deg, #a78bfa, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen antialiased">
+  <div class="mx-auto max-w-4xl px-4 pb-24 pt-8 sm:pt-16 lg:px-6">
+
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold sm:text-5xl uppercase"><span class="gradient-text">Impressum</span></h1>
+    </header>
+
+    <section class="card rounded-2xl p-6 mb-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-4">Angaben gemäß § 5 TMG</h2>
+      <p class="text-slate-300 text-sm leading-relaxed">
+        Beate Prüssel<br>
+        Nebenstr. 13<br>
+        17459 Ückeritz
+      </p>
+      <p class="text-slate-300 text-sm leading-relaxed mt-4">
+        E-Mail: <a href="mailto:bea-projects-automation@gmx.net" class="text-indigo-400 underline hover:text-indigo-300">bea-projects-automation@gmx.net</a>
+      </p>
+    </section>
+
+    <section class="card rounded-2xl p-6">
+      <h2 class="text-lg font-semibold text-slate-100 mb-4">Datenschutz-Hinweis</h2>
+      <p class="text-slate-300 text-sm leading-relaxed">
+        Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-slate-500 text-xs py-6 border-t border-slate-800 mt-8">
+    Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
+    <br><a href="index.html" class="text-indigo-400 underline hover:text-indigo-300">← Zurück zur Startseite</a>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Reiseplaner & Kultur-Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .card { background: linear-gradient(135deg, #1e293b 0%, #1a2236 100%); border: 1px solid #2d3a50; }
+    .glow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.1); }
+    .gradient-text { background: linear-gradient(135deg, #a78bfa, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    #output a { color: #818cf8; text-decoration: underline; }
+    #output h2 { font-size: 1.25rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: #f1f5f9; border-bottom: 1px solid #334155; padding-bottom: 0.25rem; }
+    #output h3 { font-weight: 600; margin: 1rem 0 0.5rem; color: #c7d2fe; }
+    #output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.5rem; }
+    #output ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.5rem; }
+    #output li { margin-bottom: 0.25rem; }
+    #output p { margin-bottom: 0.5rem; line-height: 1.7; }
+    input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); outline: none; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen antialiased">
+  <div class="mx-auto max-w-4xl px-4 pb-24 pt-8 sm:pt-16 lg:px-6">
+
+    <!-- HEADER -->
+    <header class="text-center mb-8">
+      <div class="inline-flex items-center justify-center mb-4 relative">
+        <div class="absolute inset-0 bg-indigo-500/10 blur-3xl rounded-full" style="width:140px;height:140px;left:50%;top:50%;transform:translate(-50%,-50%)"></div>
+        <span style="font-size:3.5rem">🗺️</span>
+      </div>
+      <h1 class="text-4xl font-extrabold sm:text-5xl uppercase"><span class="gradient-text">AI-Reiseplaner</span> & Kultur-Guide</h1>
+      <p class="mt-3 text-slate-400 text-base sm:text-lg max-w-xl mx-auto">Dein intelligenter Begleiter für die perfekte Reise – erstellt von künstlicher Intelligenz. ✨</p>
+    </header>
+
+    <!-- API KEY SECTION -->
+    <section class="card rounded-2xl glow p-0 mb-6 lg:mb-7">
+      <div class="p-6 space-y-5">
+        <div class="flex items-start gap-4">
+          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">🔑</div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-lg font-semibold text-slate-100">Bring your own API-Key</h2>
+            <p class="text-slate-400 text-sm leading-relaxed mt-2 mb-3">
+              Du brauchst einen Google Gemini API-Key, um die intelligente Reiseplanung zu nutzen. Der Key wird ausschließlich in deinem Browser gespeichert – wir sehen ihn nie. Die App ist komplett kostenlos, da du deine eigenen Credits mitbringst.
+              <a href="https://ai.google.dev/pricing" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline hover:text-indigo-300 font-medium">Infos zu Preisen/Quotas</a>.
+            </p>
+            <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 transition text-white font-medium rounded-xl shadow-lg shadow-indigo-500/20 text-sm lg:text-base">
+              🔑 Kostenlosen API-Key erstellen
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-slate-700/50 pt-4">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <div class="flex-1 min-w-0">
+              <label for="apikey" class="block text-xs uppercase tracking-widest text-slate-400 font-semibold mb-2">Dein Gemini API-Key</label>
+              <input type="password" id="apikey" placeholder="Hier einfügen..." class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition placeholder:text-slate-500" spellcheck="false" />
+            </div>
+          </div>
+          <div class="mt-2 flex items-center gap-3 flex-wrap">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-slate-300">
+              <input type="checkbox" id="storeapikey" class="accent-indigo-500 w-4 h-4 cursor-pointer" /> Speichern (für später)
+            </label>
+            <span id="keystatus" class="text-xs"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="card rounded-2xl p-0 mb-6 lg:mb-7">
+      <form id="travelform" class="p-6 space-y-5" autocomplete="off">
+        <div class="flex items-start gap-4">
+          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">📋</div>
+          <div>
+            <h2 class="text-lg font-semibold text-slate-100">Deine Reisewünsche</h2>
+            <p class="text-slate-400 text-xs sm:text-sm">Wir planen deine perfekte Auszeit.</p>
+          </div>
+        </div>
+        <div>
+          <label for="topplace" class="text-slate-300 text-sm mb-1.5 block font-medium">Wohin möchtest du reisen? <span class="text-indigo-400">*</span></label>
+          <input type="text" id="topplace" placeholder="z.B. Kyoto, Marrakesch, Reykjavik..." required class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition placeholder:text-slate-500" />
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="daysselect" class="text-slate-300 text-sm mb-1.5 block font-medium">Reisedauer</label>
+            <select id="daysselect" class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition">
+              <option value="1 Tag">1 Tag</option>
+              <option value="3 Tage" selected>3 Tage</option>
+              <option value="5 Tage">5 Tage</option>
+            </select>
+          </div>
+          <div>
+            <label for="styleselect" class="text-slate-300 text-sm mb-1.5 block font-medium">Reisestil</label>
+            <select id="styleselect" class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition">
+              <option value="Kultur & Geschichte">Kultur & Geschichte</option>
+              <option value="Kulinarisch & Genuss">Kulinarisch & Genuss</option>
+              <option value="Abenteuer & Natur">Abenteuer & Natur</option>
+              <option value="Budget-Schonend">Budget-Schonend</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" id="submitbtn" class="w-full py-3.5 px-6 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 transition-all text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-3 text-sm lg:text-base cursor-pointer">
+          🚀 Reiseplan generieren
+        </button>
+      </form>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card rounded-2xl p-0 mb-4">
+      <div class="p-6 space-y-4">
+        <div class="flex items-start gap-4">
+          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">💡</div>
+          <div>
+            <h2 class="text-lg font-semibold text-slate-100">Dein massgeschneiderter Guide</h2>
+            <p class="text-slate-400 text-xs sm:text-sm">Sobald der Plan erstellt ist, erscheint er hier.</p>
+          </div>
+        </div>
+        <div id="output" class="min-h-32 bg-slate-800/60 rounded-xl p-4 border border-slate-700/50 text-slate-300 text-sm overflow-x-auto break-words">
+          💡 Ergebnisse werden hier angezeigt. Drücke auf „Reiseplan generieren“!
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-slate-500 text-xs py-6 border-t border-slate-800 mt-8">
+    Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
+    <br><a href="impressum.html" class="text-indigo-400 underline hover:text-indigo-300">Impressum</a>
+  </footer>
+
+  <script>
+    const apiField = document.getElementById('apikey');
+    const submitBtn = document.getElementById('submitbtn');
+    const form = document.getElementById('travelform');
+    const outputDiv = document.getElementById('output');
+    const storeCheck = document.getElementById('storeapikey');
+    const keyStatus = document.getElementById('keystatus');
+
+    const fieldCity = document.getElementById('topplace');
+    const fieldDays = document.getElementById('daysselect');
+    const fieldStyle = document.getElementById('styleselect');
+
+    // Load key from localStorage
+    if (localStorage.getItem('_gemini_api_storedkey')) {
+      apiField.value = localStorage.getItem('_gemini_api_storedkey');
+      storeCheck.checked = true;
+      keyStatus.innerText = '✔ Key aus LocalStorage';
+      keyStatus.className = 'text-xs text-green-400';
+    }
+
+    // Store / remove key on checkbox toggle
+    storeCheck.addEventListener('change', function () {
+      if (this.checked && apiField.value.trim().length > 0) {
+        localStorage.setItem('_gemini_api_storedkey', apiField.value.trim());
+        keyStatus.innerText = '✔ Key gespeichert!';
+        keyStatus.className = 'text-xs text-green-400';
+      } else {
+        localStorage.removeItem('_gemini_api_storedkey');
+        keyStatus.innerText = '✘ Key entfernt.';
+        keyStatus.className = 'text-xs text-orange-300';
+      }
+    });
+
+    // Sync input to localStorage when checkbox is on
+    apiField.addEventListener('input', function () {
+      if (storeCheck.checked) {
+        if (this.value.trim().length > 0) {
+          localStorage.setItem('_gemini_api_storedkey', this.value.trim());
+          keyStatus.innerText = '✔ Key gespeichert!';
+          keyStatus.className = 'text-xs text-green-400';
+        } else {
+          localStorage.removeItem('_gemini_api_storedkey');
+        }
+      } else {
+        if (localStorage.getItem('_gemini_api_storedkey')) {
+          localStorage.removeItem('_gemini_api_storedkey');
+        }
+      }
+    });
+
+    // Convert Markdown-like output to HTML
+    function renderMarkdown(text) {
+      let safe = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Headers
+      safe = safe.replace(/^####\s*(.*)$/gm, '<h4>$1</h4>');
+      safe = safe.replace(/^###\s*(.*)$/gm, '<h3>$1</h3>');
+      safe = safe.replace(/^##\s*(.*)$/gm, '<h2>$1</h2>');
+
+      // Bold and italic
+      safe = safe.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      safe = safe.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+      // Inline code
+      safe = safe.replace(/`([^`]+)`/g, '<code class="bg-slate-700 px-1 rounded text-yellow-200">$1</code>');
+
+      // Horizontal rule
+      safe = safe.replace(/^---$/gm, '<hr class="border-slate-600 my-4">');
+
+      // Unordered list items
+      safe = safe.replace(/^(\s*)[-*]\s+(.*)$/gm, '$1<li>$2</li>');
+
+      // Ordered list items
+      safe = safe.replace(/^(\s*)\d+\.\s+(.*)$/gm, '$1<li>$2</li>');
+
+      // Wrap consecutive <li> in <ul> or <ol>
+      safe = safe.replace(/((?:<li>.*?<\/li>\n?)+)/g, function(match) {
+        if (match.match(/^\d+\./m)) {
+          return '<ol>\n' + match + '</ol>';
+        } else {
+          return '<ul>\n' + match + '</ul>';
+        }
+      });
+
+      // Paragraphs: double newlines
+      safe = safe.replace(/\n\n/g, '</p><p>');
+      safe = '<p>' + safe + '</p>';
+
+      // Remove empty paragraphs
+      safe = safe.replace(/<p>\s*<\/p>/g, '');
+      safe = safe.replace(/<p>(<[ul]l>)/g, '$1');
+      safe = safe.replace(/(<\/[ul]l>)<\/p>/g, '$1');
+
+      // Clean extra newlines
+      safe = safe.replace(/\n+/g, '\n');
+      safe = safe.replace(/(<\/li>)\n<li>/g, '$1<li>');
+      safe = safe.replace(/(<\/li><li>)+/g, '</li><li>');
+
+      return safe;
+    }
+
+    // Loading state
+    function setLoading(isLoading) {
+      if (isLoading) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="inline-flex items-center gap-1"><svg class="animate-spin -ml-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> generieren...</span>`;
+        outputDiv.innerHTML = '<div class="text-center text-slate-400 py-4">⏳ Erstellt deinen Reiseplan...</div>';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '🚀 Reiseplan generieren';
+      }
+    }
+
+    // Submit
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const city = fieldCity.value.trim();
+      const duration = fieldDays.value;
+      const style = fieldStyle.value;
+      const apiKey = apiField.value.trim();
+
+      // Validation
+      if (!city) {
+        outputDiv.innerHTML = '<span class="text-red-400 font-medium">❌ Fehler: Bitte gib einen Reiseort ein!</span>';
+        return;
+      }
+      if (!apiKey) {
+        outputDiv.innerHTML = '<span class="text-red-400 font-medium">❌ Fehler: Bitte gib deinen Gemini API-Key ein!</span>';
+        return;
+      }
+
+      const prompt = `Erstelle einen detaillierten Reiseplan für ${city} für ${duration} mit Fokus auf ${style}. Antworte auf Deutsch mit Emojis und Markdown-Überschriften. Gib mir Top-Empfehlungen, Aktivitäten, und praktische Tipps.`;
+
+      const payload = {
+        contents: [{
+          role: "user",
+          parts: [{ text: prompt }]
+        }],
+        generationConfig: {
+          temperature: 0.8,
+          topK: 20
+        }
+      };
+
+      setLoading(true);
+
+      try {
+        const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          let errorMsg = '';
+          try { const errBody = await res.json(); errorMsg = errBody.error?.message || res.statusText; } catch(e) { errorMsg = res.statusText; }
+          throw new Error(errorMsg);
+        }
+
+        const data = await res.json();
+        const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!answer) {
+          outputDiv.innerHTML = '<span class="text-yellow-300 font-medium">⚠ Keine Antwort vom Modell erhalten. Bitte versuche es erneut.</span>';
+          return;
+        }
+
+        const body = renderMarkdown(answer);
+        outputDiv.innerHTML = body;
+
+      } catch (err) {
+        outputDiv.innerHTML = '<span class="text-red-400 font-medium">⛔ Fehler: ' + err.message + '. Bitte überprüfe, ob dein API-Key stimmt.</span>';
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    console.log('AI-Reiseplaner ready.');
+  </script>
+</body>
+</html>
