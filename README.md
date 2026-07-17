@@ -94,3 +94,5 @@ Dieses Projekt ist ein privates Entwicklungstestsystem.
 
 * Datenschutz: Diese Anwendung sammelt, verfolgt oder speichert keine personenbezogenen Daten. Alle API-Aufrufe werden direkt aus deinem Browser an die Gemini-API von Google gesendet. Das Hosting erfolgt über GitHub Pages (es gilt die Datenschutzerklärung von GitHub).
 * Impressum: Die rechtlichen Kontaktinformationen findest du im Impressum der Live-Webseite.
+
+[https://beate-pruessel.github.io/project-gemini-travel-planner/](https://www.google.com/search?q=https://beate-pruessel.github.io/project-gemini-travel-planner/) 
