@@ -9,7 +9,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Inter', sans-serif; }
-    .card { background: linear-gradient(135deg, #1e293b 0%, #1a2236 100%); border: 1px solid #2d3a50; }
+    .card { background: rgba(120, 53, 15, 0.75); border: 1px solid rgba(120, 53, 15, 0.85); }
     .glow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.1); }
     .gradient-text { background: linear-gradient(135deg, #a78bfa, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     #output a { color: #818cf8; text-decoration: underline; }
@@ -20,46 +20,76 @@
     #output li { margin-bottom: 0.25rem; }
     #output p { margin-bottom: 0.5rem; line-height: 1.7; }
     input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); outline: none; }
+    .water-wave { background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 25%, #e5e7eb 50%, #9ca3af 75%, #e5e7eb 100%); background-size: 200% 200%; border: 1px solid #9ca3af; }
+    .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
+    .marquee-text { display: inline-block; animation: marquee 30s linear infinite, neonPulse 2s ease-in-out infinite; text-shadow: 0 0 5px #fff5e6, 0 0 10px #d4a574, 0 0 20px #a0522d, 0 0 40px #78350f; }
+    @keyframes marquee { 0% { transform: translateX(-100%); } 100% { transform: translateX(100vw); } }
+    @keyframes neonPulse { 0%, 100% { text-shadow: 0 0 5px #fff5e6, 0 0 10px #d4a574, 0 0 20px #a0522d, 0 0 40px #78350f; opacity: 1; } 50% { text-shadow: 0 0 2px #fff5e6, 0 0 5px #d4a574; opacity: 0.7; } }
+    .progress-ring { animation: circleProgress 4s linear infinite; }
+    @keyframes circleProgress { 0% { stroke-dashoffset: 138.2; } 100% { stroke-dashoffset: 0; } }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen antialiased">
+<body class="bg-slate-900 text-slate-100 min-h-screen antialiased" style="background: url('Bild-3.jpg') no-repeat center center fixed; background-size: cover;">
   <div class="mx-auto max-w-4xl px-4 pb-24 pt-8 sm:pt-16 lg:px-6">
 
     <!-- HEADER -->
     <header class="text-center mb-8">
-      <div class="inline-flex items-center justify-center mb-4 relative">
-        <div class="absolute inset-0 bg-indigo-500/10 blur-3xl rounded-full" style="width:140px;height:140px;left:50%;top:50%;transform:translate(-50%,-50%)"></div>
-        <span style="font-size:3.5rem">🗺️</span>
+      <div class="marquee-container mb-2" style="color: #fff5e6;">
+        <div class="marquee-text text-xl sm:text-2xl font-bold">Wann beginnt Ihre nächste Reise?</div>
       </div>
-      <h1 class="text-4xl font-extrabold sm:text-5xl uppercase"><span class="gradient-text">AI-Reiseplaner</span> & Kultur-Guide</h1>
-      <p class="mt-3 text-slate-400 text-base sm:text-lg max-w-xl mx-auto">Dein intelligenter Begleiter für die perfekte Reise – erstellt von künstlicher Intelligenz. ✨</p>
+      <div class="inline-flex flex-col items-center justify-center mb-4 relative" style="color: #78350f;">
+        <div id="live-clock" class="text-3xl sm:text-4xl font-extrabold tabular-nums tracking-wider mb-1" style="font-variant-numeric: tabular-nums;"></div>
+        <div id="live-date" class="text-sm font-bold mb-2 opacity-80"></div>
+        <div class="flex items-center justify-center gap-3">
+          <div id="play-m1" style="position:relative; width:3rem; height:3rem; cursor:pointer;" title="Musik abspielen">
+            <svg style="width:100%; height:100%; transform:rotate(-90deg);" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="22" fill="none" stroke="#115e59" stroke-width="3" opacity="0.3"/>
+              <circle class="progress-ring" cx="25" cy="25" r="22" fill="none" stroke="#115e59" stroke-width="3" stroke-dasharray="138.2" stroke-dashoffset="138.2" stroke-linecap="round"/>
+            </svg>
+            <span class="play-icon" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.2rem; color:#115e59;">▶</span>
+          </div>
+          <span style="font-size:3.5rem">🗺️</span>
+          <div id="play-m2" style="position:relative; width:3rem; height:3rem; cursor:pointer;" title="Musik abspielen">
+            <svg style="width:100%; height:100%; transform:rotate(-90deg);" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="22" fill="none" stroke="#115e59" stroke-width="3" opacity="0.3"/>
+              <circle class="progress-ring" cx="25" cy="25" r="22" fill="none" stroke="#115e59" stroke-width="3" stroke-dasharray="138.2" stroke-dashoffset="138.2" stroke-linecap="round"/>
+            </svg>
+            <span class="play-icon" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.2rem; color:#115e59;">▶</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-amber-900/80 inline-block px-8 py-4 rounded-xl">
+        <h1 class="text-4xl font-extrabold sm:text-5xl uppercase text-white">AI-Reiseplaner & Kultur-Guide</h1>
+        <p class="mt-3 text-white text-base sm:text-lg max-w-xl mx-auto font-bold">Dein intelligenter Begleiter für die perfekte Reise<br>– Finde mit AI dein Urlaubsziel -</p>
+      </div>
     </header>
 
     <!-- API KEY SECTION -->
     <section class="card rounded-2xl glow p-0 mb-6 lg:mb-7">
       <div class="p-6 space-y-5">
         <div class="flex items-start gap-4">
-          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">🔑</div>
           <div class="flex-1 min-w-0">
-            <h2 class="text-lg font-semibold text-slate-100">Bring your own API-Key</h2>
-            <p class="text-slate-400 text-sm leading-relaxed mt-2 mb-3">
+            <h2 class="text-lg font-semibold text-white">Bring your own API-Key</h2>
+            <p class="text-white text-sm leading-relaxed mt-2 mb-3">
               Du brauchst einen Google Gemini API-Key, um die intelligente Reiseplanung zu nutzen. Der Key wird ausschließlich in deinem Browser gespeichert – wir sehen ihn nie. Die App ist komplett kostenlos, da du deine eigenen Credits mitbringst.
-              <a href="https://ai.google.dev/pricing" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline hover:text-indigo-300 font-medium">Infos zu Preisen/Quotas</a>.
+              <a href="https://ai.google.dev/pricing" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80 font-medium" style="color: #172554;">Infos zu Preisen/Quotas</a>.
             </p>
-            <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 transition text-white font-medium rounded-xl shadow-lg shadow-indigo-500/20 text-sm lg:text-base">
-              🔑 Kostenlosen API-Key erstellen
+            <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 hover:opacity-80 transition text-white font-medium rounded-xl shadow-lg text-sm lg:text-base" style="background-color: #115e59;">
+              Kostenlosen API-Key erstellen
             </a>
           </div>
         </div>
         <div class="border-t border-slate-700/50 pt-4">
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
             <div class="flex-1 min-w-0">
-              <label for="apikey" class="block text-xs uppercase tracking-widest text-slate-400 font-semibold mb-2">Dein Gemini API-Key</label>
-              <input type="password" id="apikey" placeholder="Hier einfügen..." class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition placeholder:text-slate-500" spellcheck="false" />
-            </div>
-          </div>
+              <label for="apikey" class="block text-xs uppercase tracking-widest text-white font-semibold mb-2">Dein Gemini API-Key</label>
+              <input type="password" id="apikey" placeholder="Hier einfügen..." class="w-full water-wave rounded-xl px-4 py-3 text-slate-900 text-sm transition placeholder:text-slate-700" spellcheck="false" />
+        </div>
+        <audio id="audio-m1" src="M1-musicfox_talkline_nr_7.mp3" preload="none" loop></audio>
+        <audio id="audio-m2" src="M2-musicfox_dancing_street.mp3" preload="none" loop></audio>
+      </div>
           <div class="mt-2 flex items-center gap-3 flex-wrap">
-            <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-slate-300">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-white">
               <input type="checkbox" id="storeapikey" class="accent-indigo-500 w-4 h-4 cursor-pointer" /> Speichern (für später)
             </label>
             <span id="keystatus" class="text-xs"></span>
@@ -68,32 +98,45 @@
       </div>
     </section>
 
-    <!-- FORM -->
-    <section class="card rounded-2xl p-0 mb-6 lg:mb-7">
+    <!-- FORM + NOTEPAD -->
+    <div class="grid gap-6 lg:grid-cols-3 mb-6 lg:mb-7">
+
+      <!-- NOTEPAD -->
+      <section class="card rounded-2xl p-0 lg:col-span-1 order-2 lg:order-1" style="height: fit-content;">
+        <div class="p-6 space-y-4">
+          <h2 class="text-lg font-semibold text-white">📝 Meine Reisenotizen</h2>
+          <textarea id="notepad" placeholder="Hier eigene Notizen eintragen..." class="w-full h-64 rounded-xl px-4 py-3 text-slate-900 text-sm transition placeholder:text-slate-700 resize-y" style="background: rgba(253, 230, 138, 0.45); border: 1px solid #d1d5db;"></textarea>
+          <button type="button" id="savenotes" class="w-full py-3 px-6 hover:opacity-80 transition-all text-white font-semibold rounded-xl shadow-lg text-sm cursor-pointer" style="background-color: #78350f;">
+            💾 Notizen speichern
+          </button>
+        </div>
+      </section>
+
+      <!-- FORM -->
+      <section class="card rounded-2xl p-0 order-1 lg:order-2 lg:col-span-2">
       <form id="travelform" class="p-6 space-y-5" autocomplete="off">
         <div class="flex items-start gap-4">
-          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">📋</div>
           <div>
-            <h2 class="text-lg font-semibold text-slate-100">Deine Reisewünsche</h2>
-            <p class="text-slate-400 text-xs sm:text-sm">Wir planen deine perfekte Auszeit.</p>
+            <h2 class="text-lg font-semibold text-white">Deine Reisewünsche</h2>
+            <p class="text-white text-xs sm:text-sm">Wir planen deine perfekte Auszeit.</p>
           </div>
         </div>
         <div>
-          <label for="topplace" class="text-slate-300 text-sm mb-1.5 block font-medium">Wohin möchtest du reisen? <span class="text-indigo-400">*</span></label>
-          <input type="text" id="topplace" placeholder="z.B. Kyoto, Marrakesch, Reykjavik..." required class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition placeholder:text-slate-500" />
+          <label for="topplace" class="text-white text-sm mb-1.5 block font-medium">Wohin möchtest du reisen? <span class="text-indigo-400">*</span></label>
+          <input type="text" id="topplace" placeholder="z.B. Kyoto, Marrakesch, Reykjavik..." required class="w-full water-wave rounded-xl px-4 py-3 text-slate-900 text-sm transition placeholder:text-slate-700" />
         </div>
         <div class="grid gap-5 sm:grid-cols-2">
           <div>
-            <label for="daysselect" class="text-slate-300 text-sm mb-1.5 block font-medium">Reisedauer</label>
-            <select id="daysselect" class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition">
+            <label for="daysselect" class="text-white text-sm mb-1.5 block font-medium">Reisedauer</label>
+            <select id="daysselect" class="w-full water-wave rounded-xl px-4 py-3 text-slate-900 text-sm transition">
               <option value="1 Tag">1 Tag</option>
               <option value="3 Tage" selected>3 Tage</option>
               <option value="5 Tage">5 Tage</option>
             </select>
           </div>
           <div>
-            <label for="styleselect" class="text-slate-300 text-sm mb-1.5 block font-medium">Reisestil</label>
-            <select id="styleselect" class="w-full bg-slate-800/80 border border-slate-600 rounded-xl px-4 py-3 text-slate-100 text-sm transition">
+            <label for="styleselect" class="text-white text-sm mb-1.5 block font-medium">Reisestil</label>
+            <select id="styleselect" class="w-full water-wave rounded-xl px-4 py-3 text-slate-900 text-sm transition">
               <option value="Kultur & Geschichte">Kultur & Geschichte</option>
               <option value="Kulinarisch & Genuss">Kulinarisch & Genuss</option>
               <option value="Abenteuer & Natur">Abenteuer & Natur</option>
@@ -101,23 +144,23 @@
             </select>
           </div>
         </div>
-        <button type="submit" id="submitbtn" class="w-full py-3.5 px-6 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 transition-all text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-3 text-sm lg:text-base cursor-pointer">
-          🚀 Reiseplan generieren
+        <button type="submit" id="submitbtn" class="w-full py-3.5 px-6 hover:opacity-80 transition-all text-white font-semibold rounded-xl shadow-lg flex items-center justify-center gap-3 text-sm lg:text-base cursor-pointer" style="background-color: #115e59;">
+Reiseplan generieren
         </button>
       </form>
     </section>
 
+    </div>
+
     <!-- OUTPUT -->
     <section class="card rounded-2xl p-0 mb-4">
       <div class="p-6 space-y-4">
-        <div class="flex items-start gap-4">
-          <div class="hidden sm:flex size-11 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400">📄</div>
-          <div>
-            <h2 class="text-lg font-semibold text-slate-100">Dein massgeschneiderter Guide</h2>
-            <p class="text-slate-400 text-xs sm:text-sm">Sobald der Plan erstellt ist, erscheint er hier.</p>
+        <div>
+          <h2 class="text-lg font-semibold text-white">Dein massgeschneiderter Guide</h2>
+            <p class="text-white text-xs sm:text-sm">Sobald der Plan erstellt ist, erscheint er hier.</p>
           </div>
         </div>
-        <div id="output" class="min-h-32 bg-slate-800/60 rounded-xl p-4 border border-slate-700/50 text-slate-300 text-sm overflow-x-auto break-words">
+        <div id="output" class="min-h-32 water-wave rounded-xl p-4 text-slate-900 text-sm overflow-x-auto break-words">
           💡 Ergebnisse werden hier angezeigt. Drücke auf „Reiseplan generieren“!
         </div>
       </div>
@@ -126,9 +169,17 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="text-center text-slate-500 text-xs py-6 border-t border-slate-800 mt-8">
-    Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
-    <br><a href="impressum.html" class="text-indigo-400 underline hover:text-indigo-300">Impressum</a>
+  <footer class="text-center text-xs py-6 border-t border-slate-800 mt-8 bg-amber-200/45" style="color: #115e59;">
+    <div class="font-bold">
+      Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
+    </div>
+    <div class="mt-3 flex items-center justify-center gap-4 flex-wrap font-semibold">
+      <a href="impressum.html" class="underline hover:opacity-80">Impressum</a>
+      <span class="opacity-40">|</span>
+      <a href="https://www.musicfox.com/info/kostenlose-gemafreie-musik/" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">🎵 Musik</a>
+    </div>
+    <div class="mt-2 font-semibold opacity-70">Bild: <a href="https://pixabay.com/de/users/leonhard_niederwimmer-1131094/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7411977" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">Leonhard Niederwimmer</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7411977" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">Pixabay</a></div>
+    <div class="mt-3 font-semibold opacity-80">© 2026 Beate Prüssel</div>
   </footer>
 
   <script>
@@ -138,6 +189,36 @@
     const outputDiv = document.getElementById('output');
     const storeCheck = document.getElementById('storeapikey');
     const keyStatus = document.getElementById('keystatus');
+
+    // Audio playback
+    const audioM1 = document.getElementById('audio-m1');
+    const audioM2 = document.getElementById('audio-m2');
+    const playM1 = document.getElementById('play-m1');
+    const playM2 = document.getElementById('play-m2');
+
+    function togglePlay(btn, audio) {
+      const icon = btn.querySelector('.play-icon');
+      if (audio.paused) {
+        audio.play();
+        icon.textContent = '⏸';
+      } else {
+        audio.pause();
+        icon.textContent = '▶';
+      }
+    }
+
+    playM1.addEventListener('click', function () {
+      if (!audioM2.paused) { audioM2.pause(); playM2.querySelector('.play-icon').textContent = '▶'; }
+      togglePlay(playM1, audioM1);
+    });
+
+    playM2.addEventListener('click', function () {
+      if (!audioM1.paused) { audioM1.pause(); playM1.querySelector('.play-icon').textContent = '▶'; }
+      togglePlay(playM2, audioM2);
+    });
+
+    audioM1.addEventListener('ended', function () { playM1.querySelector('.play-icon').textContent = '▶'; });
+    audioM2.addEventListener('ended', function () { playM2.querySelector('.play-icon').textContent = '▶'; });
 
     const fieldCity = document.getElementById('topplace');
     const fieldDays = document.getElementById('daysselect');
@@ -316,6 +397,51 @@
     });
 
     console.log('AI-Reiseplaner ready.');
+
+    // Notepad: load from localStorage
+    const notepad = document.getElementById('notepad');
+    const savedNotes = localStorage.getItem('_reisenotizen');
+    if (savedNotes) notepad.value = savedNotes;
+
+    notepad.addEventListener('input', function () {
+      localStorage.setItem('_reisenotizen', this.value);
+    });
+
+    // Notepad: save as file
+    document.getElementById('savenotes').addEventListener('click', function () {
+      const text = notepad.value;
+      if (!text.trim()) { return; }
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Reisenotizen.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Live Clock & Date
+    const clockEl = document.getElementById('live-clock');
+    const dateEl = document.getElementById('live-date');
+    const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      clockEl.textContent = h + ':' + m + ':' + s;
+
+      const dayName = days[now.getDay()];
+      const day = now.getDate();
+      const month = months[now.getMonth()];
+      const year = now.getFullYear();
+      dateEl.textContent = dayName + ', ' + day + '. ' + month + ' ' + year;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
   </script>
 
 </body>
