@@ -9,15 +9,24 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Inter', sans-serif; }
-    .card { background: linear-gradient(135deg, #1e293b 0%, #1a2236 100%); border: 1px solid #2d3a50; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('Bild-3.jpg') center/cover no-repeat;
+      z-index: -1;
+    }
+    .card { background: rgba(120, 53, 15, 0.75); border: 1px solid rgba(120, 53, 15, 0.85); }
     .gradient-text { background: linear-gradient(135deg, #a78bfa, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen antialiased">
+<body class="bg-slate-900/80 text-slate-100 min-h-screen antialiased">
   <div class="mx-auto max-w-4xl px-4 pb-24 pt-8 sm:pt-16 lg:px-6">
 
     <header class="text-center mb-8">
-      <h1 class="text-4xl font-extrabold sm:text-5xl uppercase"><span class="gradient-text">Impressum</span></h1>
+      <div class="bg-amber-900/80 inline-block px-8 py-4 rounded-xl">
+        <h1 class="text-4xl sm:text-5xl uppercase text-white">Impressum</h1>
+      </div>
     </header>
 
     <section class="card rounded-2xl p-6 mb-6">
@@ -28,7 +37,7 @@
         17459 Ückeritz
       </p>
       <p class="text-slate-300 text-sm leading-relaxed mt-4">
-        E-Mail: <a href="mailto:bea-projects-automation@gmx.net" class="text-indigo-400 underline hover:text-indigo-300">bea-projects-automation@gmx.net</a>
+        E-Mail: <a href="mailto:bea-projects-automation@gmx.net" class="text-white underline hover:text-white">bea-projects-automation@gmx.net</a>
       </p>
     </section>
 
@@ -42,9 +51,17 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="text-center text-slate-500 text-xs py-6 border-t border-slate-800 mt-8">
-    Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
-    <br><a href="index.html" class="text-indigo-400 underline hover:text-indigo-300">← Zurück zur Startseite</a>
+  <footer class="text-center text-xs py-6 border-t border-slate-800 mt-8 bg-amber-200/45" style="color: #115e59;">
+    <div class="font-bold">
+      Datenschutz-Hinweis: Diese Seite ist ein privates Testprojekt und speichert keine persönlichen Daten. Die API-Anfragen werden direkt an Google Gemini übertragen. Das Hosting erfolgt über GitHub Pages, deren Datenschutzerklärung gilt.
+    </div>
+    <div class="mt-3 flex items-center justify-center gap-4 flex-wrap font-semibold">
+      <a href="index.html" class="underline hover:opacity-80">← Zurück zur Startseite</a>
+      <span class="opacity-40">|</span>
+      <a href="https://www.musicfox.com/info/kostenlose-gemafreie-musik/" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">🎵 Musik</a>
+    </div>
+    <div class="mt-2 font-semibold opacity-70">Bild: <a href="https://pixabay.com/de/users/leonhard_niederwimmer-1131094/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7411977" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">Leonhard Niederwimmer</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7411977" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">Pixabay</a></div>
+    <div class="mt-3 font-semibold opacity-80">© 2026 Beate Prüssel</div>
   </footer>
 
 </body>
